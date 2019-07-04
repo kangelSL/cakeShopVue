@@ -30,3 +30,23 @@ jobs:
 
 
       - run: yarn test
+      
+  deploy-job:
+    docker:
+         - image: my-image-version-tag
+    working_directory: /tmp/my-project
+    steps:
+      - run: ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN
+
+    workflows:
+      version: 2
+
+      -deploy:
+        jobs:
+          - build-job
+          - deploy-job:
+              requires:
+                - build-job
+              filters:
+                branches:
+                  only: master
