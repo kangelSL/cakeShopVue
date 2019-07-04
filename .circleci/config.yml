@@ -38,6 +38,12 @@ jobs:
 
 
       - run: yarn test
+
+      - run: yarn build
+      
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
             
   deploy_to_firebase:
     docker:
