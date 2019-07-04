@@ -42,13 +42,15 @@ jobs:
       - run: yarn build
       
       - persist_to_workspace:
-          root: .
+          root: ~/repo
+          paths: 
+          - client
             
   deploy_to_firebase:
     docker:
       - image: circleci/node:10.15.3
-    working_directory: ~/repo
+    working_directory: ~/repo/client
     steps:
       - attach_workspace:
-          at:  ~/
+          at:  ~/repo/
       - run: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
